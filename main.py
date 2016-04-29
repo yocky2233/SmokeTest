@@ -152,6 +152,8 @@ def wait_for_device():
             print '未识别'
             os.popen('adb kill-server')
             time.sleep(5)
+            
+            
             os.popen('adb start-server')
             run = 'false'
     return run
