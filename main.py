@@ -56,7 +56,23 @@ def upgrade():
             break
 
     #测试启动所有应用
-
+    #判断手机是否进入开机后的设置界面
+    times = 0
+    while True:
+        cmd = os.popen('adb shell dumpsys activity top | '+seek+' ACTIVITY').readline()
+        if 'com.android.settings' not in cmd:
+            print '未进入到开机后的设置界面'
+            time.sleep(5)
+        else:
+            break
+        if times == 40:
+            print '系统长时间未进入开机后的设置界面'
+            #发送邮件通知手机无法正常进入开机后界面
+            sendMail.send(mailto_list,"版本异常报告","hi all:"+"\n"+"    "+"版本"+Versions+"刷机后无法进入系统！")
+            sys.exit(0)
+        times += 1
+    
+        
     #获取手机版本
     build = os.popen('adb shell getprop ro.build.description').readline()
     fileTime = GetLog.getTime('%Y%m%d')
