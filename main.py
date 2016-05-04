@@ -37,7 +37,7 @@ def upgrade():
     if run == 'false':
         print '手机连接超时，发送邮件通知并程序终止'
         #发送邮件通知手机无法进入系统
-        sendMail.send(mailto_list,"版本异常报告","hi all:"+"\n"+"    "+"版本"+Versions+"刷机后无法进入系统！")
+        sendMail.send(mailto_list,"版本异常报告","hi all:"+"\n"+"    "+"版本"+Versions+"刷机后无法进入系统或无法识别设备！")
         sys.exit(0) #终止程序
     else:
         print '手机已连接'
@@ -64,6 +64,7 @@ def upgrade():
             print '未进入到开机后的设置界面'
             time.sleep(5)
         else:
+            print '手机进入系统界面'
             break
         if times == 40:
             print '系统长时间未进入开机后的设置界面'
@@ -166,11 +167,9 @@ def wait_for_device():
             break
         else:
             print '未识别'
-            os.popen('adb kill-server')
+            #os.popen('adb kill-server')
             time.sleep(5)
-            
-            
-            os.popen('adb start-server')
+            #os.popen('adb start-server')
             run = 'false'
     return run
 

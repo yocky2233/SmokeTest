@@ -1,5 +1,7 @@
 eclipse.preferences.version=1
 encoding/GetLog.py=UTF-8
+encoding/Unzip.py=UTF-8
 encoding/ftpRun.py=UTF-8
 encoding/main.py=UTF-8
+encoding/sendMail.py=UTF-8
 encoding/startApp.py=UTF-8

@@ -11,7 +11,7 @@ def getLog(fileName):
     package = ''
     crashPackage = ''
     pullANR = False
-    popen = subprocess.Popen("adb logcat -v time", stdout = subprocess.PIPE)
+    popen = subprocess.Popen("adb logcat -v time", stdout = subprocess.PIPE,shell=True)
     returncode = popen.poll()
 
     versionsLog = os.path.join(os.getcwd(),'ErrorLog',fileName)
@@ -47,7 +47,7 @@ def getLog(fileName):
 
 
             time = getTime('%Y%m%d-%H%M%S')
-            print u"报错"
+            print "报错"
             i = 0
             print '报错类型'+name
             logName = name+time
