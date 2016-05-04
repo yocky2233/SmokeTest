@@ -6,8 +6,13 @@ if platform.system() == 'Windows':
 else:
     seek = 'grep'
 
-mailto_list = ['471410616@qq.com']
-tester_list = ['471410616@qq.com']
+mailto_list = ['zhongfu.zheng@itel-mobile.com',
+               'jianhua.li@itel-mobile.com',
+               'lei.dai@itel-mobile.com',
+               'chongyi.pu@itel-mobile.com']
+tester_list = ['zhongfu.zheng@itel-mobile.com',
+               'jianhua.li@itel-mobile.com',
+               'lei.dai@itel-mobile.com']
 
 def upgrade():
     #下载版本
