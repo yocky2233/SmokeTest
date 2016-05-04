@@ -1,5 +1,5 @@
 #coding=UTF-8
-import os,time,platform
+import os,time,platform,sendMail
 
 if platform.system() == 'Windows':
     seek = 'findstr'
@@ -28,14 +28,18 @@ def test():
                   'com.android.vending',
                   'com.android.quicksearchbox',
                   'com.android.soundrecorder']
-
+    
     for i in appPackage:
         os.popen('adb shell monkey -p '+i+' 1')
         # print 'adb shell monkey -p '+i+' 1'
         time.sleep(5)
         cmd = os.popen('adb shell dumpsys activity top | '+seek+' ACTIVITY').readline()
         if i not in cmd:
+            str += i+'未启动成功，也可能是谷歌应用跳转到登陆界面'+'\n'
             print i+'未启动成功，也可能是谷歌应用跳转到登陆界面'
+    
+    mailto_list = ['471410616@qq.com']
+    sendMail.send(mailto_list,"未启动的应用","hi all:"+"\n"+"    本次测试疑似未启动的应用有："+"\n"+str)
 
 
 if __name__ == '__main__':

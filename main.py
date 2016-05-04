@@ -162,7 +162,7 @@ def launcher(Versions):
 def wait_for_device():
     for i in range(20):
         cmd = os.popen('adb get-state').readline()
-        if cmd.strip() == 'device':
+        if cmd.strip() == 'device': 
             run = 'turn'
             break
         else:
