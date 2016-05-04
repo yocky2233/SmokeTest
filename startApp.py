@@ -29,6 +29,7 @@ def test():
                   'com.android.quicksearchbox',
                   'com.android.soundrecorder']
     
+    str = ''
     for i in appPackage:
         os.popen('adb shell monkey -p '+i+' 1')
         # print 'adb shell monkey -p '+i+' 1'
