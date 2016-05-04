@@ -86,7 +86,8 @@ def upgrade():
     print '版本文件名：'+ fileName
 
     #开启log抓取
-    child = subprocess.Popen('python '+os.path.join(os.getcwd(),'GetLog.py')+' -p '+ fileName,shell=True)
+    #child = subprocess.Popen('python '+os.path.join(os.getcwd(),'GetLog.py')+' -p '+ fileName,shell=True)
+    child = subprocess.Popen('python /var/lib/jenkins/workspace/SmokeProject/GetLog.py -p '+ fileName,shell=True)
     print '开启抓log'
 
     #运行启动程序
