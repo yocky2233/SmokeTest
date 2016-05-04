@@ -8,8 +8,8 @@ else:
 
 mailto_list = ['zhongfu.zheng@itel-mobile.com',
                'jianhua.li@itel-mobile.com',
-               'lei.dai@itel-mobile.com',
-               'chongyi.pu@itel-mobile.com']
+               'lei.dai@itel-mobile.com'
+               ]#'chongyi.pu@itel-mobile.com'
 tester_list = ['zhongfu.zheng@itel-mobile.com',
                'jianhua.li@itel-mobile.com',
                'lei.dai@itel-mobile.com']
@@ -23,7 +23,7 @@ def upgrade():
     if run == 'false':
         print '刷机前手机连接超时，程序终止'
         #发邮件提示tester，未识别到手机，检查测试环境
-        sendMail.send(tester_list,"升级异常","hi all:"+"\n"+"    "+"版本"+Versions+"在升级版本前未识别到手机，请检查手机是否已连接，或PC测试环境是否有问题！")
+        sendMail.send(tester_list,u"升级异常","hi all:"+"\n"+"    "+"版本"+Versions+"在升级版本前未识别到手机，请检查手机是否已连接，或PC测试环境是否有问题！")
         sys.exit(0)
     else:
         print '手机已连接'
@@ -42,7 +42,7 @@ def upgrade():
     if run == 'false':
         print '手机连接超时，发送邮件通知并程序终止'
         #发送邮件通知手机无法进入系统
-        sendMail.send(mailto_list,"版本异常报告","hi all:"+"\n"+"    "+"版本"+Versions+"刷机后无法进入系统或无法识别设备！")
+        sendMail.send(mailto_list,u"版本异常报告","hi all:"+"\n"+"    "+"版本"+Versions+"刷机后无法进入系统或无法识别设备！")
         sys.exit(0) #终止程序
     else:
         print '手机已连接'
@@ -74,7 +74,7 @@ def upgrade():
         if times == 40:
             print '系统长时间未进入开机后的设置界面'
             #发送邮件通知手机无法正常进入开机后界面
-            sendMail.send(mailto_list,"版本异常报告","hi all:"+"\n"+"    "+"版本"+Versions+"刷机后无法进入系统！")
+            sendMail.send(mailto_list,u"版本异常报告","hi all:"+"\n"+"    "+"版本"+Versions+"刷机后无法进入系统！")
             sys.exit(0)
         times += 1
     
@@ -106,7 +106,7 @@ def upgrade():
         errorsNumber = 0
         if errorsFile == 0:
             print '没有报错文件'
-            sendMail.send(mailto_list,"版本刷机报告","hi all:"+"\n"+"    "+"版本"+Versions+"刷机成功！启动所有应用过程未出现报错。")
+            sendMail.send(mailto_list,u"版本刷机报告","hi all:"+"\n"+"    "+"版本"+Versions+"刷机成功！启动所有应用过程未出现报错。")
         else:
             errorPath = ''
             for i in files:
@@ -118,11 +118,11 @@ def upgrade():
                     else:
                         errorPath += '应用'+packageName+'报错' +'\n'+'ftp://FTP_Talpa:talpaftp@10.250.1.88/Log/'+fileName+'/'+i+'\n'
             print '有报错文件'
-            sendMail.send(mailto_list,"版本刷机报告","hi all:"+"\n"+"    "+"版本"+Versions+"刷机成功！启动所有应用过程共出现"+str(errorsNumber)+"次报错。"+"\n"+"对应应用报错log地址如下："+"\n"+errorPath)
+            sendMail.send(mailto_list,u"版本刷机报告","hi all:"+"\n"+"    "+"版本"+Versions+"刷机成功！启动所有应用过程共出现"+str(errorsNumber)+"次报错。"+"\n"+"对应应用报错log地址如下："+"\n"+errorPath)
 
     else:
         print '没有报错文件'
-        sendMail.send(mailto_list,"版本刷机报告","hi all:"+"\n"+"    "+"版本"+Versions+"刷机成功！启动所有应用过程未出现报错。")
+        sendMail.send(mailto_list,u"版本刷机报告","hi all:"+"\n"+"    "+"版本"+Versions+"刷机成功！启动所有应用过程未出现报错。")
 
 
 
@@ -141,7 +141,7 @@ def launcher(Versions):
     if not login:
         print '手机无法进入第二屏'
         #发送邮件通知手机无法正常开启
-        sendMail.send(mailto_list,"版本异常报告","hi all:"+"\n"+"    "+"版本"+Versions+"刷机后无法进入系统！")
+        sendMail.send(mailto_list,u"版本异常报告","hi all:"+"\n"+"    "+"版本"+Versions+"刷机后无法进入系统！")
         sys.exit(0)
 
     #判断是否运行launcher
@@ -160,7 +160,7 @@ def launcher(Versions):
     if not lcRun:
         print 'launcher未运行'
         #发送邮件通知手机无法正常运行launcher
-        sendMail.send(mailto_list,"版本异常报告","hi all:"+"\n"+"    "+"版本"+Versions+"刷机后无法进入系统！")
+        sendMail.send(mailto_list,u"版本异常报告","hi all:"+"\n"+"    "+"版本"+Versions+"刷机后无法进入系统！")
         sys.exit(0)
 
 

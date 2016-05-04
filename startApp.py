@@ -40,7 +40,7 @@ def test():
             print i+'未启动成功，也可能是谷歌应用跳转到登陆界面'
     
     tester_list = ['zhongfu.zheng@itel-mobile.com']
-    sendMail.send(tester_list,"未启动的应用","hi all:"+"\n"+"    本次测试疑似未启动的应用有："+"\n"+str)
+    sendMail.send(tester_list,u"未启动的应用","hi all:"+"\n"+"    本次测试疑似未启动的应用有："+"\n"+str)
 
 
 if __name__ == '__main__':

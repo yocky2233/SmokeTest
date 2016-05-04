@@ -87,9 +87,9 @@ def downloadVersions():
         #发送邮件通知
         mailto_list = ['zhongfu.zheng@itel-mobile.com',
                        'jianhua.li@itel-mobile.com',
-                       'lei.dai@itel-mobile.com',
-                       'chongyi.pu@itel-mobile.com']
-        sendMail.send(mailto_list,"版本异常报告","hi all:"+"\n"+"    "+time+"无刷机版本！")
+                       'lei.dai@itel-mobile.com'
+                       ]#'chongyi.pu@itel-mobile.com'
+        sendMail.send(mailto_list,u"版本异常报告","hi all:"+"\n"+"    "+time+"无刷机版本！")
         sys.exit(0) #终止程序
     else:
         downloadfile(fileList[-1])
