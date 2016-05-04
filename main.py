@@ -32,7 +32,7 @@ def upgrade():
     os.popen('adb reboot bootloader')
     time.sleep(5)
     os.popen('fastboot flash boot '+os.path.join(os.getcwd(),'versions','boot.img'))
-    os.popen('fastboot flash recovery  '+os.path.join(os.getcwd(),'versions','recovery .img'))
+    os.popen('fastboot flash recovery '+os.path.join(os.getcwd(),'versions','recovery.img'))
     os.popen('fastboot flash system '+os.path.join(os.getcwd(),'versions','system.img'))
     os.popen('fastboot reboot')
     print '升级完毕'
