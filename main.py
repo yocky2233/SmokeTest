@@ -8,8 +8,8 @@ else:
 
 mailto_list = ['zhongfu.zheng@itel-mobile.com',
                'jianhua.li@itel-mobile.com',
-               'lei.dai@itel-mobile.com'
-               ]#'chongyi.pu@itel-mobile.com'
+               'lei.dai@itel-mobile.com',
+               'chongyi.pu@itel-mobile.com']
 tester_list = ['zhongfu.zheng@itel-mobile.com',
                'jianhua.li@itel-mobile.com',
                'lei.dai@itel-mobile.com']
