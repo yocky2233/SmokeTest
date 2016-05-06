@@ -31,7 +31,7 @@ def test():
     
     str = ''
     for i in appPackage:
-        os.popen('adb shell monkey -p '+i+' 1')
+        os.popen('adb shell monkey -p '+i+' --throttle 500 100')
         # print 'adb shell monkey -p '+i+' 1'
         time.sleep(5)
         cmd = os.popen('adb shell dumpsys activity top | '+seek+' ACTIVITY').readline()

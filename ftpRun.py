@@ -88,7 +88,23 @@ def downloadVersions():
         mailto_list = ['zhongfu.zheng@itel-mobile.com',
                        'jianhua.li@itel-mobile.com',
                        'lei.dai@itel-mobile.com',
-                       'chongyi.pu@itel-mobile.com']
+                       'chongyi.pu@itel-mobile.com',
+                       'hanyue.yang@itel-mobile.com',
+                       'wei.zhang@itel-mobile.com',
+                       'jinlei.zhang@itel-mobile.com',
+                       'hu.qiao@itel-mobile.com',
+                       'shaolin.tian@itel-mobile.com',
+                       'chen.liu@itel-mobile.com',
+                       'junjie.shi@itel-mobile.com',
+                       'ming.gao@itel-mobile.com',
+                       'linnan.yao@itel-mobile.com',
+                       'meng.zhang@itel-mobile.com',
+                       'weixi.dou@itel-mobile.com',
+                       'chong.qu@itel-mobile.com',
+                       'hualong.zhang@itel-mobile.com',
+                       'meiyi.chen@itel-mobile.com',
+                       'qun.zhang@itel-mobile.com',
+                       'jianyu.liu@itel-mobile.com']
         sendMail.send(mailto_list,u"版本异常报告","hi all:"+"\n"+"    "+time+"无刷机版本！")
         sys.exit(0) #终止程序
     else:
