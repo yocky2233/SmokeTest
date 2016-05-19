@@ -17,7 +17,9 @@ mailto_list = ['zhongfu.zheng@itel-mobile.com',
                'hualong.zhang@itel-mobile.com',
                'meiyi.chen@itel-mobile.com',
                'qun.zhang@itel-mobile.com',
-               'jianyu.liu@itel-mobile.com']
+               'jianyu.liu@itel-mobile.com',
+               'suwen.feng@itel-mobile.com',
+               'shuiyuan.zhang@itel-mobile.com']
 tester_list = ['zhongfu.zheng@itel-mobile.com',
                'jianhua.li@itel-mobile.com',
                'lei.dai@itel-mobile.com']
