@@ -60,6 +60,7 @@ def upgrade():
         cmd = os.popen('adb shell dumpsys activity top | '+seek+' ACTIVITY').readline()
         if 'com.android.settings' not in cmd:
             print '未进入到开机后的设置界面'
+            os.popen('adb shell am start com.android.settings')
             time.sleep(5)
         else:
             print '手机进入系统界面'
