@@ -91,6 +91,17 @@ def downloadVersions():
         downloadfile(fileList[-1])
     return fileList[-1]
 
+#判断是否有ota包
+def ota(otaVersions):
+    ftp = ftpconnect()
+    ftp.cwd("/work/Doc_For_OSTeam/Doc_For_OSTeam/RecoveryPackage")
+    fileList = []
+    getOta = False
+    for i in ftp.nlst():
+        if otaVersions in i:
+            getOta =  True
+    return getOta
+
 
 if __name__ == "__main__":
     # a = os.path.join(os.getcwd(),'ErrorLog','abc','test.py')
