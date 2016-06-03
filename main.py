@@ -14,9 +14,10 @@ def upgrade():
     otaVersions = ''.join(Versions.split('-')[1:])
     print 'otaVersions='+otaVersions
     #判断服务器是否有ota包
-    if ftpRun.ota('sp7731geaplus_dt-ota-'+otaVersions+'.zip'):
+    otaName = ftpRun.ota()
+    if otaName != 'false':
         print '有OTA包'
-        otaVersionsPath = "ota包下载地址：ftp://FTP_Talpa:talpaftp@10.250.1.88/work/Doc_For_OSTeam/Doc_For_OSTeam/RecoveryPackage/sp7731geaplus_dt-ota-"+otaVersions+".zip"
+        otaVersionsPath = "ota包下载地址：ftp://FTP_Talpa:talpaftp@10.250.1.88/work/Doc_For_OSTeam/Doc_For_OSTeam/RecoveryPackage/"+otaName
     else:
         print '没有OTA包'
         otaVersionsPath = '服务器无该版本的OTA升级包！'
@@ -44,7 +45,7 @@ def upgrade():
     if run == 'false':
         print '手机连接超时，发送邮件通知并程序终止'
         #发送邮件通知手机无法进入系统
-        sendMail.send(MailRecipients.mailto_list,u"版本异常报告","hi all:"+"\n"+"    "+"版本"+Versions+"刷机后无法进入系统或无法识别设备！"+"\n"+"    "
+        sendMail.send(MailRecipients.mailto_list,u"版本刷机报告-刷机失败","hi all:"+"\n"+"    "+"版本"+Versions+"刷机后无法进入系统或无法识别设备！"+"\n"+"    "
                       +otaVersionsPath)
         sys.exit(0) #终止程序
     else:
@@ -78,7 +79,7 @@ def upgrade():
         if times == 40:
             print '系统长时间未进入开机后的设置界面'
             #发送邮件通知手机无法正常进入开机后界面
-            sendMail.send(MailRecipients.mailto_list,u"版本异常报告","hi all:"+"\n"+"    "+"版本"+Versions+"刷机后无法进入系统！"+"\n"+"    "
+            sendMail.send(MailRecipients.mailto_list,u"版本刷机报告-刷机失败","hi all:"+"\n"+"    "+"版本"+Versions+"刷机后无法进入系统！"+"\n"+"    "
                           +otaVersionsPath)
             sys.exit(0)
         times += 1
@@ -111,7 +112,7 @@ def upgrade():
         errorsNumber = 0
         if errorsFile == 0:
             print '没有报错文件'
-            sendMail.send(MailRecipients.mailto_list,u"版本刷机报告","hi all:"+"\n"+"    "+"版本"+Versions+"刷机成功！启动所有应用过程未出现报错。"+"\n"+"    "
+            sendMail.send(MailRecipients.mailto_list,u"版本刷机报告-刷机成功","hi all:"+"\n"+"    "+"版本"+Versions+"刷机成功！启动所有应用过程未出现报错。"+"\n"+"    "
                           +otaVersionsPath)
         else:
             errorPath = ''
@@ -124,12 +125,12 @@ def upgrade():
                     else:
                         errorPath += '应用'+packageName+'报错' +'\n'+'ftp://FTP_Talpa:talpaftp@10.250.1.88/Log/'+fileName+'/'+i+'\n'
             print '有报错文件'
-            sendMail.send(MailRecipients.mailto_list,u"版本刷机报告","hi all:"+"\n"+"    "+"版本"+Versions+"刷机成功！启动所有应用过程共出现"+str(errorsNumber)+"次报错。"+"\n"+"    "
+            sendMail.send(MailRecipients.mailto_list,u"版本刷机报告-刷机成功","hi all:"+"\n"+"    "+"版本"+Versions+"刷机成功！启动所有应用过程共出现"+str(errorsNumber)+"次报错。"+"\n"+"    "
                           +otaVersionsPath+"\n"+"对应应用报错log地址如下："+"\n"+errorPath)
 
     else:
         print '没有报错文件'
-        sendMail.send(MailRecipients.mailto_list,u"版本刷机报告","hi all:"+"\n"+"    "+"版本"+Versions+"刷机成功！启动所有应用过程未出现报错。"+"\n"+"    "
+        sendMail.send(MailRecipients.mailto_list,u"版本刷机报告-刷机成功","hi all:"+"\n"+"    "+"版本"+Versions+"刷机成功！启动所有应用过程未出现报错。"+"\n"+"    "
                       +otaVersionsPath)
 
 
@@ -149,7 +150,7 @@ def launcher(Versions,otaVersionsPath):
     if not login:
         print '手机无法进入第二屏'
         #发送邮件通知手机无法正常开启
-        sendMail.send(MailRecipients.mailto_list,u"版本异常报告","hi all:"+"\n"+"    "+"版本"+Versions+"刷机后无法进入系统！"+"\n"+"    "
+        sendMail.send(MailRecipients.mailto_list,u"版本刷机报告-刷机失败","hi all:"+"\n"+"    "+"版本"+Versions+"刷机后无法进入系统！"+"\n"+"    "
                       +otaVersionsPath)
         sys.exit(0)
 
@@ -169,7 +170,7 @@ def launcher(Versions,otaVersionsPath):
     if not lcRun:
         print 'launcher未运行'
         #发送邮件通知手机无法正常运行launcher
-        sendMail.send(MailRecipients.mailto_list,u"版本异常报告","hi all:"+"\n"+"    "+"版本"+Versions+"刷机后无法进入系统！"+"\n"+"    "
+        sendMail.send(MailRecipients.mailto_list,u"版本刷机报告-刷机失败","hi all:"+"\n"+"    "+"版本"+Versions+"刷机后无法进入系统！"+"\n"+"    "
                       +otaVersionsPath)
         sys.exit(0)
 

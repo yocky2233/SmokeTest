@@ -71,36 +71,62 @@ def downloadVersions():
     ftp.cwd("/work/Doc_For_OSTeam/Doc_For_OSTeam/RecoveryPackage")
     fileList = []
     for i in ftp.nlst():
-        if 'imgs' in i and len(i)>18:
+        if 'imgs' in i and len(i)>13:
             fileList.append(i)
     print fileList
     time = GetLog.getTime('%Y%m%d')
     print '当前日期'+time
 
     fileName = fileList[-1].split('-')
-    fileTime = '20'+fileName[1]+fileName[2]+fileName[3]
+    fileTime = '20'+fileName[1]
     print fileName
     print fileTime
 
-    if fileTime!=time:
+    if time not in fileTime:
         print '没有今天的版本'
         #发送邮件通知
-        sendMail.send(MailRecipients.mailto_list,u"版本异常报告","hi all:"+"\n"+"    "+time+"无刷机版本！")
+        sendMail.send(MailRecipients.mailto_list,u"版本刷机报告-无刷机版本","hi all:"+"\n"+"    "+time+"无刷机版本！")
         sys.exit(0) #终止程序
     else:
         downloadfile(fileList[-1])
     return fileList[-1]
 
 #判断是否有ota包
-def ota(otaVersions):
+def ota():
     ftp = ftpconnect()
     ftp.cwd("/work/Doc_For_OSTeam/Doc_For_OSTeam/RecoveryPackage")
     fileList = []
-    getOta = False
+    
+    time = GetLog.getTime('%Y%m%d')
+    print '当前日期'+time
+    
+    getOta = 'false'
     for i in ftp.nlst():
-        if otaVersions in i:
-            getOta =  True
+        if '.ota' in i and len(i)>18:
+            fileList.append(i)
+            otaName = i.split('.')
+            if time in '20'+otaName[3]:
+                getOta = i
+                break
+    print 'ota包名'+getOta
     return getOta
+    
+#     
+#     print otaName
+#     print '20'+otaName[-3]
+#     print time
+#     if time in '20'+otaName[-3]:
+#         print 't'
+#     else:
+#         print 'f'
+    
+#     ftp.cwd("/work/Doc_For_OSTeam/Doc_For_OSTeam/RecoveryPackage")
+#     fileList = []
+#     getOta = False
+#     for i in ftp.nlst():
+#         if otaVersions in i:
+#             getOta =  True
+#     return getOta
 
 
 if __name__ == "__main__":
@@ -109,4 +135,4 @@ if __name__ == "__main__":
     # uploadfile(a)
     # test()
     # downloadfile()
-    downloadVersions()
+    ota()
