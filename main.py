@@ -114,6 +114,9 @@ def upgrade():
             print '没有报错文件'
             sendMail.send(MailRecipients.mailto_list,u"版本刷机报告-刷机成功","hi all:"+"\n"+"    "+"版本"+Versions+"刷机成功！启动所有应用过程未出现报错。"+"\n"+"    "
                           +otaVersionsPath)
+            if otaName != 'false':
+                createOtaFile(otaName)
+                ftpRun.uploadOtaFile()
         else:
             errorPath = ''
             for i in files:
@@ -132,9 +135,17 @@ def upgrade():
         print '没有报错文件'
         sendMail.send(MailRecipients.mailto_list,u"版本刷机报告-刷机成功","hi all:"+"\n"+"    "+"版本"+Versions+"刷机成功！启动所有应用过程未出现报错。"+"\n"+"    "
                       +otaVersionsPath)
+        if otaName != 'false':
+            createOtaFile(otaName)
+            ftpRun.uploadOtaFile()
 
 
 
+#创建ota日志文件
+def createOtaFile(otaFileName):
+    fileName = os.path.join(os.getcwd(),'test.txt')
+    file = open(fileName, 'w')
+    file.write(otaFileName)
 
 def launcher(Versions,otaVersionsPath):
     #判断是否进入第二屏
@@ -191,4 +202,5 @@ def wait_for_device():
     return run
 
 if __name__ == '__main__':
+    ftpRun.deleteFile('otaLog','test.txt')
     upgrade()

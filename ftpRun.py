@@ -37,7 +37,7 @@ def downloadfile(versionsName):
     ftp.quit() #退出ftp服务器
     print '下载结束'
 
-#上传文件到FTP
+#上传报错日志文件到FTP
 def uploadfile(fileName,newLogName):
     make = True
     # remotepath = os.path.join('Log')
@@ -64,6 +64,24 @@ def uploadfile(fileName,newLogName):
     # ftp.set_debuglevel(0)
     fp.close() #关闭文件
     ftp.quit()
+    
+#上传ota日志文件到FTP
+def uploadOtaFile():
+    ftp = ftpconnect()
+    ftp.cwd('otaLog')
+    bufsize = 1024
+    localpath = os.path.join(os.getcwd(),'test.txt') #设定上传文件位置
+    fp = open(localpath,'rb')
+    ftp.storbinary('STOR %s' % os.path.basename(localpath),fp,bufsize) #上传文件
+    # ftp.set_debuglevel(0)
+    fp.close() #关闭文件
+    ftp.quit()
+    
+#删除ftp上文件
+def deleteFile(fileName,dirname):
+    ftp = ftpconnect()
+    ftp.cwd(fileName)#要删除文件的ftp目录
+    ftp.delete(dirname) #删除远程目录
 
 #下载FTP文件
 def downloadVersions():
@@ -111,22 +129,6 @@ def ota():
     print 'ota包名'+getOta
     return getOta
     
-#     
-#     print otaName
-#     print '20'+otaName[-3]
-#     print time
-#     if time in '20'+otaName[-3]:
-#         print 't'
-#     else:
-#         print 'f'
-    
-#     ftp.cwd("/work/Doc_For_OSTeam/Doc_For_OSTeam/RecoveryPackage")
-#     fileList = []
-#     getOta = False
-#     for i in ftp.nlst():
-#         if otaVersions in i:
-#             getOta =  True
-#     return getOta
 
 
 if __name__ == "__main__":
@@ -135,4 +137,4 @@ if __name__ == "__main__":
     # uploadfile(a)
     # test()
     # downloadfile()
-    ota()
+    uploadOtaFile()
