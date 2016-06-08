@@ -103,7 +103,7 @@ def downloadVersions():
     if time not in fileTime:
         print '没有今天的版本'
         #发送邮件通知
-        sendMail.send(MailRecipients.mailto_list,u"版本刷机报告-无刷机版本","hi all:"+"\n"+"    "+time+"无刷机版本！")
+        sendMail.send(MailRecipients.mailto_list,u"版本刷机报告-无刷机版本","hi all:"+"\n"+"    "+time+"无刷机版本！请负责版本编译的开发同学关注。")
         sys.exit(0) #终止程序
     else:
         downloadfile(fileList[-1])
