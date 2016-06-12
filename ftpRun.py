@@ -24,7 +24,7 @@ def downloadfile(versionsName):
         os.mkdir(file)
 
     ftp = ftpconnect()
-    ftp.cwd("/work/Doc_For_OSTeam/Doc_For_OSTeam/RecoveryPackage/"+versionsName)
+    ftp.cwd("/work/Doc_For_OSTeam/Doc_For_OSTeam/RecoveryPackage_debug/"+versionsName)
     remotepath = ['boot.img','recovery.img','system.img']
     print ftp.getwelcome() #显示ftp服务器欢迎信息
     bufsize = 1024 #设置缓冲块大小
@@ -94,7 +94,7 @@ def deleteFile(fileName,dirname):
 #下载FTP文件
 def downloadVersions():
     ftp = ftpconnect()
-    ftp.cwd("/work/Doc_For_OSTeam/Doc_For_OSTeam/RecoveryPackage")
+    ftp.cwd("/work/Doc_For_OSTeam/Doc_For_OSTeam/RecoveryPackage_debug")
     fileList = []
     for i in ftp.nlst():
         if 'imgs' in i and len(i)>13:
@@ -120,7 +120,7 @@ def downloadVersions():
 #判断是否有ota包
 def ota():
     ftp = ftpconnect()
-    ftp.cwd("/work/Doc_For_OSTeam/Doc_For_OSTeam/RecoveryPackage")
+    ftp.cwd("/work/Doc_For_OSTeam/Doc_For_OSTeam/RecoveryPackage_debug")
     fileList = []
     
     time = GetLog.getTime('%Y%m%d')
