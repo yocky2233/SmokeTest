@@ -80,8 +80,16 @@ def uploadOtaFile():
 #删除ftp上文件
 def deleteFile(fileName,dirname):
     ftp = ftpconnect()
+    
     ftp.cwd(fileName)#要删除文件的ftp目录
-    ftp.delete(dirname) #删除远程目录
+    
+    file = ftp.nlst()
+    print file
+    if file == []:
+        print '无otaLog文件'
+    else:
+        print '有otaLog文件'
+        ftp.delete(dirname) #删除远程目录
 
 #下载FTP文件
 def downloadVersions():
@@ -136,5 +144,4 @@ if __name__ == "__main__":
     # a = 'd:/boot.img'
     # uploadfile(a)
     # test()
-    # downloadfile()
-    uploadOtaFile()
+    deleteFile('otaLog','test.txt')
