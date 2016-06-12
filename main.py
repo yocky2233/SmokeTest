@@ -17,7 +17,7 @@ def upgrade():
     otaName = ftpRun.ota()
     if otaName != 'false':
         print '有OTA包'
-        otaVersionsPath = "ota包下载地址：ftp://FTP_Talpa:talpaftp@10.250.1.88/work/Doc_For_OSTeam/Doc_For_OSTeam/RecoveryPackage/"+otaName
+        otaVersionsPath = "ota包下载地址：ftp://FTP_Talpa:talpaftp@10.250.1.88/work/Doc_For_OSTeam/Doc_For_OSTeam/RecoveryPackage_debug/"+otaName
     else:
         print '没有OTA包'
         otaVersionsPath = '服务器无该版本的OTA升级包！'
