@@ -128,7 +128,7 @@ def ota():
     
     getOta = 'false'
     for i in ftp.nlst():
-        if '.ota' in i and len(i)>18:
+        if 'zip' in i and len(i)>18:
             fileList.append(i)
             otaName = i.split('.')
             if time in '20'+otaName[3]:
@@ -144,4 +144,4 @@ if __name__ == "__main__":
     # a = 'd:/boot.img'
     # uploadfile(a)
     # test()
-    deleteFile('otaLog','test.txt')
+    ota()
