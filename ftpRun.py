@@ -131,7 +131,8 @@ def ota():
         if 'zip' in i and len(i)>18:
             fileList.append(i)
             otaName = i.split('.')
-            if time in '20'+otaName[3]:
+            time = time[2:]
+            if time in i:
                 getOta = i
                 break
     print 'ota包名'+getOta
