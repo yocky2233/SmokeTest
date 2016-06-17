@@ -127,11 +127,12 @@ def ota():
     print '当前日期'+time
     
     getOta = 'false'
+    time = time[2:]
+    print time
     for i in ftp.nlst():
         if 'zip' in i and len(i)>18:
             fileList.append(i)
             otaName = i.split('.')
-            time = time[2:]
             if time in i:
                 getOta = i
                 break

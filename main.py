@@ -112,7 +112,7 @@ def upgrade():
         errorsNumber = 0
         if errorsFile == 0:
             print '没有报错文件'
-            sendMail.send(MailRecipients.mailto_list,u"版本刷机报告-刷机成功","hi all:"+"\n"+"    "+"版本"+Versions+"刷机成功！启动所有应用过程未出现报错。"+"\n"+"    "
+            sendMail.send(MailRecipients.mailto_list,u"版本刷机报告-刷机成功","hi all:"+"\n"+"    "+"版本"+Versions+"刷机成功！所有应用启动正常。"+"\n"+"    "
                           +otaVersionsPath)
             if otaName != 'false':
                 createOtaFile(otaName)
@@ -133,7 +133,7 @@ def upgrade():
 
     else:
         print '没有报错文件'
-        sendMail.send(MailRecipients.mailto_list,u"版本刷机报告-刷机成功","hi all:"+"\n"+"    "+"版本"+Versions+"刷机成功！启动所有应用过程未出现报错。"+"\n"+"    "
+        sendMail.send(MailRecipients.mailto_list,u"版本刷机报告-刷机成功","hi all:"+"\n"+"    "+"版本"+Versions+"刷机成功！所有应用启动正常。"+"\n"+"    "
                       +otaVersionsPath)
         if otaName != 'false':
             createOtaFile(otaName)
