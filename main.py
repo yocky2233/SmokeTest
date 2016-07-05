@@ -72,7 +72,7 @@ def upgrade():
         if 'com.android.settings' not in cmd:
             print '未进入到开机后的设置界面'
             os.popen('adb shell am start com.android.settings')
-            time.sleep(5)
+            time.sleep(15)
         else:
             print '手机进入系统界面'
             break
@@ -149,7 +149,7 @@ def createOtaFile(otaFileName):
 
 def launcher(Versions,otaVersionsPath):
     #判断是否进入第二屏
-    for i in range(5):
+    for i in range(30):
         cmd = os.popen('adb shell dumpsys activity top | '+seek+' ACTIVITY').readline()
         if cmd != None:
             print '手机进入第二屏'
@@ -166,7 +166,7 @@ def launcher(Versions,otaVersionsPath):
         sys.exit(0)
 
     #判断是否运行launcher
-    for i in range(5):
+    for i in range(30):
         cmd = os.popen('adb shell dumpsys activity top | '+seek+' ACTIVITY').readline()
         pid = cmd.strip().split(' ')[-1].strip()
         print pid
@@ -188,7 +188,7 @@ def launcher(Versions,otaVersionsPath):
 
 #等待连接设备
 def wait_for_device():
-    for i in range(20):
+    for i in range(30):
         cmd = os.popen('adb get-state').readline()
         if cmd.strip() == 'device': 
             run = 'turn'
@@ -196,7 +196,7 @@ def wait_for_device():
         else:
             print '未识别'
             #os.popen('adb kill-server')
-            time.sleep(5)
+            time.sleep(10)
             #os.popen('adb start-server')
             run = 'false'
     return run
