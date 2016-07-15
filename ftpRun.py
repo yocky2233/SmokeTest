@@ -24,14 +24,21 @@ def downloadfile(versionsName):
         os.mkdir(file)
 
     ftp = ftpconnect()
-    ftp.cwd("/work/Doc_For_OSTeam/Doc_For_OSTeam/RecoveryPackage_debug/"+versionsName)
-    remotepath = ['boot.img','recovery.img','system.img']
+    ftp.cwd("/work/Doc_For_OSTeam/Doc_For_OSTeam/simg2img/out_systemimg/1507_51_debug")
+    
+#     remotepath = ['boot.img','recovery.img','system.img']
     print ftp.getwelcome() #显示ftp服务器欢迎信息
     bufsize = 1024 #设置缓冲块大小
-    for i in remotepath:
-        localpath = os.path.join(file,i)
-        fp = open(localpath,'wb') #以写模式在本地打开文件
-        ftp.retrbinary('RETR ' + i,fp.write,bufsize) #接收服务器上文件并写入本地文件
+    
+    
+#     for i in remotepath:
+#         localpath = os.path.join(file,i)
+#         fp = open(localpath,'wb') #以写模式在本地打开文件
+#         ftp.retrbinary('RETR ' + i,fp.write,bufsize) #接收服务器上文件并写入本地文件
+    print '下载文件'+versionsName
+    localpath = os.path.join(file,versionsName)
+    fp = open(localpath,'wb') #以写模式在本地打开文件
+    ftp.retrbinary('RETR ' + versionsName,fp.write,bufsize) #接收服务器上文件并写入本地文件
     #ftp.set_debuglevel(0) #关闭调试
     fp.close()
     ftp.quit() #退出ftp服务器
@@ -94,33 +101,38 @@ def deleteFile(fileName,dirname):
 #下载FTP文件
 def downloadVersions():
     ftp = ftpconnect()
-    ftp.cwd("/work/Doc_For_OSTeam/Doc_For_OSTeam/RecoveryPackage_debug")
-    fileList = []
-    for i in ftp.nlst():
-        if 'imgs' in i and len(i)>13:
-            fileList.append(i)
-    print fileList
+    ftp.cwd("/work/Doc_For_OSTeam/Doc_For_OSTeam/simg2img/out_systemimg/1507_51_debug")
+#     fileList = []
+#     for i in ftp.nlst():
+#         if 'imgs' in i and len(i)>13:
+#             fileList.append(i)
+#     print fileList
+
     time = GetLog.getTime('%Y%m%d')
     print '当前日期'+time
 
-    fileName = fileList[-1].split('-')
-    fileTime = '20'+fileName[1]
-    print fileName
-    print fileTime
+#     fileName = fileList[-1].split('-')
+#     fileTime = '20'+fileName[1]
+#     print fileName
+#     print fileTime
 
-    if time not in fileTime:
+    file = ""
+    for i in ftp.nlst():
+        if time in i:
+            file = i
+    if file == "":
         print '没有今天的版本'
         #发送邮件通知
         sendMail.send(MailRecipients.mailto_list,u"版本刷机报告-无刷机版本","hi all:"+"\n"+"    "+time+"无刷机版本！请负责版本编译的开发同学关注。")
         sys.exit(0) #终止程序
     else:
-        downloadfile(fileList[-1])
-    return fileList[-1]
+        downloadfile(file)
+    return file
 
 #判断是否有ota包
 def ota():
     ftp = ftpconnect()
-    ftp.cwd("/work/Doc_For_OSTeam/Doc_For_OSTeam/RecoveryPackage_debug")
+    ftp.cwd("/work/Doc_For_OSTeam/Doc_For_OSTeam/simg2img/out_ota/1507_51_debug")
     fileList = []
     
     time = GetLog.getTime('%Y%m%d')
@@ -146,4 +158,4 @@ if __name__ == "__main__":
     # a = 'd:/boot.img'
     # uploadfile(a)
     # test()
-    ota()
+    downloadVersions()

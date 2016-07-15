@@ -11,13 +11,13 @@ def upgrade():
     #下载版本
     Versions = ftpRun.downloadVersions()
     #获取ota包名
-    otaVersions = ''.join(Versions.split('-')[1:])
-    print 'otaVersions='+otaVersions
+    VersionsName = Versions.split('.')[0]
+    print '版本名='+VersionsName
     #判断服务器是否有ota包
     otaName = ftpRun.ota()
     if otaName != 'false':
         print '有OTA包'
-        otaVersionsPath = "ota包下载地址：ftp://FTP_Talpa:talpaftp@10.250.1.88/work/Doc_For_OSTeam/Doc_For_OSTeam/RecoveryPackage_debug/"+otaName
+        otaVersionsPath = "ota包下载地址：ftp://FTP_Talpa:talpaftp@10.250.1.88/work/Doc_For_OSTeam/Doc_For_OSTeam/simg2img/out_ota/1507_51_debug/"+otaName
     else:
         print '没有OTA包'
         otaVersionsPath = '服务器无该版本的OTA升级包！'
@@ -26,7 +26,7 @@ def upgrade():
     if run == 'false':
         print '刷机前手机连接超时，程序终止'
         #发邮件提示tester，未识别到手机，检查测试环境
-        sendMail.send(MailRecipients.tester_list,u"升级异常","hi all:"+"\n"+"    "+"版本"+Versions+"在升级版本前未识别到手机，请检查手机是否已连接，或PC测试环境是否有问题！")
+        sendMail.send(MailRecipients.tester_list,u"升级异常","hi all:"+"\n"+"    "+"版本"+VersionsName+"在升级版本前未识别到手机，请检查手机是否已连接，或PC测试环境是否有问题！")
         sys.exit(0)
     else:
         print '手机已连接'
@@ -34,9 +34,10 @@ def upgrade():
     #刷版本
     os.popen('adb reboot bootloader')
     time.sleep(5)
-    os.popen('fastboot flash boot '+os.path.join(os.getcwd(),'versions','boot.img'))
-    os.popen('fastboot flash recovery '+os.path.join(os.getcwd(),'versions','recovery.img'))
-    os.popen('fastboot flash system '+os.path.join(os.getcwd(),'versions','system.img'))
+#     os.popen('fastboot flash boot '+os.path.join(os.getcwd(),'versions','boot.img'))
+#     os.popen('fastboot flash recovery '+os.path.join(os.getcwd(),'versions','recovery.img'))
+    os.popen('fastboot flash system '+os.path.join(os.getcwd(),'versions',Versions))
+    print 'fastboot flash system '+os.path.join(os.getcwd(),'versions',Versions)
     os.popen('fastboot reboot')
     print '升级完毕'
 
@@ -45,14 +46,14 @@ def upgrade():
     if run == 'false':
         print '手机连接超时，发送邮件通知并程序终止'
         #发送邮件通知手机无法进入系统
-        sendMail.send(MailRecipients.mailto_list,u"版本刷机报告-刷机失败","hi all:"+"\n"+"    "+"版本"+Versions+"刷机后无法进入系统或无法识别设备！"+"\n"+"    "
+        sendMail.send(MailRecipients.mailto_list,u"版本刷机报告-刷机失败","hi all:"+"\n"+"    "+"版本"+VersionsName+"刷机后无法进入系统或无法识别设备！"+"\n"+"    "
                       +otaVersionsPath)
         sys.exit(0) #终止程序
     else:
         print '手机已连接'
 
     #判断是否进入Launcher
-    launcher(Versions,otaVersionsPath)
+    launcher(VersionsName,otaVersionsPath)
 
     #判断屏幕是否锁屏
     for i in range(5):
@@ -79,7 +80,7 @@ def upgrade():
         if times == 40:
             print '系统长时间未进入开机后的设置界面'
             #发送邮件通知手机无法正常进入开机后界面
-            sendMail.send(MailRecipients.mailto_list,u"版本刷机报告-刷机失败","hi all:"+"\n"+"    "+"版本"+Versions+"刷机后无法进入系统！"+"\n"+"    "
+            sendMail.send(MailRecipients.mailto_list,u"版本刷机报告-刷机失败","hi all:"+"\n"+"    "+"版本"+VersionsName+"刷机后无法进入系统！"+"\n"+"    "
                           +otaVersionsPath)
             sys.exit(0)
         times += 1
@@ -112,7 +113,7 @@ def upgrade():
         errorsNumber = 0
         if errorsFile == 0:
             print '没有报错文件'
-            sendMail.send(MailRecipients.mailto_list,u"版本刷机报告-刷机成功","hi all:"+"\n"+"    "+"版本"+Versions+"刷机成功！所有应用启动正常。"+"\n"+"    "
+            sendMail.send(MailRecipients.mailto_list,u"版本刷机报告-刷机成功","hi all:"+"\n"+"    "+"版本"+VersionsName+"刷机成功！所有应用启动正常。"+"\n"+"    "
                           +otaVersionsPath)
             if otaName != 'false':
                 createOtaFile(otaName)
@@ -128,12 +129,12 @@ def upgrade():
                     else:
                         errorPath += '应用'+packageName+'报错' +'\n'+'ftp://FTP_Talpa:talpaftp@10.250.1.88/Log/'+fileName+'/'+i+'\n'
             print '有报错文件'
-            sendMail.send(MailRecipients.mailto_list,u"版本刷机报告-刷机成功","hi all:"+"\n"+"    "+"版本"+Versions+"刷机成功！启动所有应用过程共出现"+str(errorsNumber)+"次报错。"+"\n"+"    "
+            sendMail.send(MailRecipients.mailto_list,u"版本刷机报告-刷机成功","hi all:"+"\n"+"    "+"版本"+VersionsName+"刷机成功！启动所有应用过程共出现"+str(errorsNumber)+"次报错。"+"\n"+"    "
                           +otaVersionsPath+"\n"+"对应应用报错log地址如下："+"\n"+errorPath)
 
     else:
         print '没有报错文件'
-        sendMail.send(MailRecipients.mailto_list,u"版本刷机报告-刷机成功","hi all:"+"\n"+"    "+"版本"+Versions+"刷机成功！所有应用启动正常。"+"\n"+"    "
+        sendMail.send(MailRecipients.mailto_list,u"版本刷机报告-刷机成功","hi all:"+"\n"+"    "+"版本"+VersionsName+"刷机成功！所有应用启动正常。"+"\n"+"    "
                       +otaVersionsPath)
         if otaName != 'false':
             createOtaFile(otaName)
@@ -147,7 +148,7 @@ def createOtaFile(otaFileName):
     file = open(fileName, 'w')
     file.write(otaFileName)
 
-def launcher(Versions,otaVersionsPath):
+def launcher(VersionsName,otaVersionsPath):
     #判断是否进入第二屏
     for i in range(30):
         cmd = os.popen('adb shell dumpsys activity top | '+seek+' ACTIVITY').readline()
@@ -161,7 +162,7 @@ def launcher(Versions,otaVersionsPath):
     if not login:
         print '手机无法进入第二屏'
         #发送邮件通知手机无法正常开启
-        sendMail.send(MailRecipients.mailto_list,u"版本刷机报告-刷机失败","hi all:"+"\n"+"    "+"版本"+Versions+"刷机后无法进入系统！"+"\n"+"    "
+        sendMail.send(MailRecipients.mailto_list,u"版本刷机报告-刷机失败","hi all:"+"\n"+"    "+"版本"+VersionsName+"刷机后无法进入系统！"+"\n"+"    "
                       +otaVersionsPath)
         sys.exit(0)
 
@@ -181,7 +182,7 @@ def launcher(Versions,otaVersionsPath):
     if not lcRun:
         print 'launcher未运行'
         #发送邮件通知手机无法正常运行launcher
-        sendMail.send(MailRecipients.mailto_list,u"版本刷机报告-刷机失败","hi all:"+"\n"+"    "+"版本"+Versions+"刷机后无法进入系统！"+"\n"+"    "
+        sendMail.send(MailRecipients.mailto_list,u"版本刷机报告-刷机失败","hi all:"+"\n"+"    "+"版本"+VersionsName+"刷机后无法进入系统！"+"\n"+"    "
                       +otaVersionsPath)
         sys.exit(0)
 
