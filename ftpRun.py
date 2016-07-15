@@ -102,19 +102,9 @@ def deleteFile(fileName,dirname):
 def downloadVersions():
     ftp = ftpconnect()
     ftp.cwd("/work/Doc_For_OSTeam/Doc_For_OSTeam/simg2img/out_systemimg/1507_51_debug")
-#     fileList = []
-#     for i in ftp.nlst():
-#         if 'imgs' in i and len(i)>13:
-#             fileList.append(i)
-#     print fileList
 
     time = GetLog.getTime('%Y%m%d')
     print '当前日期'+time
-
-#     fileName = fileList[-1].split('-')
-#     fileTime = '20'+fileName[1]
-#     print fileName
-#     print fileTime
 
     file = ""
     for i in ftp.nlst():
