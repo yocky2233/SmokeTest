@@ -104,13 +104,13 @@ def ota():
     print '当前日期'+time
     
     getOta = 'false'
-    time = time[2:]
-    print time
+    time2 = time[2:]
+    print time2
     for i in ftp.nlst():
         if 'zip' in i and len(i)>18:
             fileList.append(i)
             otaName = i.split('.')
-            if time in i:
+            if time2 in i:
                 getOta = i
                 break
     print 'ota包名'+getOta
@@ -118,7 +118,7 @@ def ota():
     #没有ota包发送邮件
     if getOta == 'false':
         #发送邮件通知
-        sendMail.send(MailRecipients.mailto_list,u"版本刷机报告-无刷机版本","hi all:"+"\n"+"    "+time+"无刷机版本！请负责版本编译的开发同学关注。")
+        sendMail.send(MailRecipients.mailto_list,u"版本刷机报告-无刷机版本","hi all:"+"\n"+"    "+time2+"无刷机版本！请负责版本编译的开发同学关注。")
         sys.exit(0) #终止程序
     
     #下载ota包

@@ -9,9 +9,9 @@ else:
 def pushVersions():
     #下载OTA包
     OTA = ftpRun.ota()
-    otaVersionsPath = 'ota包下载地址：ftp://FTP_Talpa:talpaftp@10.250.1.88/work/Doc_For_OSTeam/Doc_For_OSTeam/simg2img/out_ota/1507_51_debug/'+OTA
+    otaVersionsPath = 'ota包下载地址：ftp://FTP_Talpa:talpaftp@10.250.1.88/work/Doc_For_OSTeam/Doc_For_OSTeam/simg2img/out_ota/w3_60_debug/'+OTA
     #判断是否连接上设备
-    run = wait_for_device(30)
+    run = wait_for_device(10)
     if run == 'false':
         print '刷机前手机连接超时，程序终止'
         #发邮件提示tester，未识别到手机，检查测试环境
@@ -31,15 +31,19 @@ def pushVersions():
     print cmd
     if OTA in cmd:
         print '手机中已有ota包'
-        os.system('adb install -r '+os.path.join(os.getcwd(),'app','OTAtest1.apk'))
-        os.system('adb install -r '+os.path.join(os.getcwd(),'app','OTAtest2.apk'))
+        # # 本地调试路径;
+        # os.system('adb install -r '+os.path.join(os.getcwd(),'app','OTAtest1.apk'))
+        # os.system('adb install -r '+os.path.join(os.getcwd(),'app','OTAtest2.apk'))
+        # 傻逼Linux服务器本地路径;
+        os.system('adb install -r /home/zf/桌面/app/OTAtest1.apk')
+        os.system('adb install -r /home/zf/桌面/app/OTAtest1.apk')
         os.system('adb shell am start -n com.android.launcher3/.Launcher')
         time.sleep(5)
         os.system('adb shell am instrument -w -r -e debug false -e class com.talpa.ota.ApplicationTest#otaTest com.talpa.ota.test/android.support.test.runner.AndroidJUnitRunner')
         time.sleep(30)
 
         #判断是否连接上设备
-        run = wait_for_device(90)
+        run = wait_for_device(30)
         if run == 'false':
             print '手机连接超时，发送邮件通知并程序终止'
             #发送邮件通知手机无法进入系统
@@ -96,8 +100,8 @@ def pushVersions():
             sys.exit(0)
         
         #开启log抓取
-#         child = subprocess.Popen('python '+os.path.join(os.getcwd(),'GetLog.py')+' -p '+ fileName,shell=True)
-        child = subprocess.Popen('python /var/lib/jenkins/workspace/SmokeProject/GetLog.py -p '+ fileName,shell=True)
+        child = subprocess.Popen('python '+os.path.join(os.getcwd(),'GetLog.py')+' -p '+ fileName,shell=True)
+#         child = subprocess.Popen('python /var/lib/jenkins/workspace/SmokeProject/GetLog.py -p '+ fileName,shell=True)
         print '开启抓log'    
         
         #运行启动程序
