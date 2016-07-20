@@ -27,7 +27,9 @@ def test():
                   'com.android.dialer',
                   'com.android.vending',
                   'com.android.quicksearchbox',
-                  'com.android.soundrecorder']
+                  'com.android.soundrecorder',
+                  'tran.com.android.taplaota',
+                  'com.android.launcher3']
     
     str = ''
     for i in appPackage:

@@ -24,17 +24,12 @@ def downloadfile(versionsName):
         os.mkdir(file)
 
     ftp = ftpconnect()
-    ftp.cwd("/work/Doc_For_OSTeam/Doc_For_OSTeam/simg2img/out_systemimg/1507_51_debug")
+    ftp.cwd("/work/Doc_For_OSTeam/Doc_For_OSTeam/simg2img/out_ota/w3_60_debug")
     
 #     remotepath = ['boot.img','recovery.img','system.img']
     print ftp.getwelcome() #显示ftp服务器欢迎信息
     bufsize = 1024 #设置缓冲块大小
-    
-    
-#     for i in remotepath:
-#         localpath = os.path.join(file,i)
-#         fp = open(localpath,'wb') #以写模式在本地打开文件
-#         ftp.retrbinary('RETR ' + i,fp.write,bufsize) #接收服务器上文件并写入本地文件
+
     print '下载文件'+versionsName
     localpath = os.path.join(file,versionsName)
     fp = open(localpath,'wb') #以写模式在本地打开文件
@@ -98,31 +93,11 @@ def deleteFile(fileName,dirname):
         print '有otaLog文件'
         ftp.delete(dirname) #删除远程目录
 
-#下载FTP文件
-def downloadVersions():
-    ftp = ftpconnect()
-    ftp.cwd("/work/Doc_For_OSTeam/Doc_For_OSTeam/simg2img/out_systemimg/1507_51_debug")
-
-    time = GetLog.getTime('%Y%m%d')
-    print '当前日期'+time
-
-    file = ""
-    for i in ftp.nlst():
-        if time in i:
-            file = i
-    if file == "":
-        print '没有今天的版本'
-        #发送邮件通知
-        sendMail.send(MailRecipients.mailto_list,u"版本刷机报告-无刷机版本","hi all:"+"\n"+"    "+time+"无刷机版本！请负责版本编译的开发同学关注。")
-        sys.exit(0) #终止程序
-    else:
-        downloadfile(file)
-    return file
 
 #判断是否有ota包
 def ota():
     ftp = ftpconnect()
-    ftp.cwd("/work/Doc_For_OSTeam/Doc_For_OSTeam/simg2img/out_ota/1507_51_debug")
+    ftp.cwd("/work/Doc_For_OSTeam/Doc_For_OSTeam/simg2img/out_ota/w3_60_debug")
     fileList = []
     
     time = GetLog.getTime('%Y%m%d')
@@ -139,6 +114,15 @@ def ota():
                 getOta = i
                 break
     print 'ota包名'+getOta
+    
+    #没有ota包发送邮件
+    if getOta == 'false':
+        #发送邮件通知
+        sendMail.send(MailRecipients.mailto_list,u"版本刷机报告-无刷机版本","hi all:"+"\n"+"    "+time+"无刷机版本！请负责版本编译的开发同学关注。")
+        sys.exit(0) #终止程序
+    
+    #下载ota包
+    downloadfile(getOta)
     return getOta
     
 
@@ -148,4 +132,4 @@ if __name__ == "__main__":
     # a = 'd:/boot.img'
     # uploadfile(a)
     # test()
-    downloadVersions()
+    ota()
