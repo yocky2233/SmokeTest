@@ -11,7 +11,7 @@ def pushVersions():
     OTA = ftpRun.ota()
     otaVersionsPath = 'ota包下载地址：ftp://FTP_Talpa:talpaftp@10.250.1.88/work/Doc_For_OSTeam/Doc_For_OSTeam/simg2img/out_ota/w3_60_debug/'+OTA
     #判断是否连接上设备
-    run = wait_for_device(10)
+    run = wait_for_device(30)
     if run == 'false':
         print '刷机前手机连接超时，程序终止'
         #发邮件提示tester，未识别到手机，检查测试环境
@@ -36,14 +36,14 @@ def pushVersions():
         # os.system('adb install -r '+os.path.join(os.getcwd(),'app','OTAtest2.apk'))
         # 傻逼Linux服务器本地路径;
         os.system('adb install -r /home/zf/桌面/app/OTAtest1.apk')
-        os.system('adb install -r /home/zf/桌面/app/OTAtest1.apk')
-        os.system('adb shell am start -n com.android.launcher3/.Launcher')
+        os.system('adb install -r /home/zf/桌面/app/OTAtest2.apk')
+        os.system('adb shell am start -n tran.com.android.taplaota/.activity.OtaActivity')
         time.sleep(5)
         os.system('adb shell am instrument -w -r -e debug false -e class com.talpa.ota.ApplicationTest#otaTest com.talpa.ota.test/android.support.test.runner.AndroidJUnitRunner')
         time.sleep(30)
 
         #判断是否连接上设备
-        run = wait_for_device(30)
+        run = wait_for_device(15)
         if run == 'false':
             print '手机连接超时，发送邮件通知并程序终止'
             #发送邮件通知手机无法进入系统
@@ -66,7 +66,7 @@ def pushVersions():
             else:
                 break
             
-         #测试启动所有应用
+        #测试启动所有应用
         #判断手机是否进入开机后的设置界面
         times = 0
         while True:
@@ -93,6 +93,9 @@ def pushVersions():
         print '版本文件名：'+ fileName
         if  fileTime in build:
             print '已刷入当天版本'
+            os.system('adb shell rm /sdcard/*.zip')
+            time.sleep(2)
+            os.system('adb shell input keyevent 4')
         else:
             print '刷机后不是当天版本'
             sendMail.send(MailRecipients.mailto_list,u"版本刷机报告-刷机失败","hi all:"+"\n"+"    "+"版本"+OTA+"刷机后检测到版本号不是当天的版本！"+"\n"+"    "
@@ -217,7 +220,7 @@ def wait_for_device(times):
         else:
             print '未识别'
             #os.popen('adb kill-server')
-            time.sleep(30)
+            time.sleep(60)
             #os.popen('adb start-server')
             run = 'false'
     return run
