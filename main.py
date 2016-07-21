@@ -98,12 +98,12 @@ def pushVersions():
             os.system('adb shell input keyevent 4')
         else:
             print '刷机后不是当天版本'
-            sendMail.send(MailRecipients.mailto_list,u"版本刷机报告-刷机失败","hi all:"+"\n"+"    "+"版本"+OTA+"刷机后检测到版本号不是当天的版本！"+"\n"+"    "
+            sendMail.send(MailRecipients.tester_list,u"版本刷机报告-刷机失败","hi all:"+"\n"+"    "+"版本"+OTA+"刷机后检测到版本号不是当天的版本！"+"\n"+"    "
                           +otaVersionsPath)
             sys.exit(0)
         
         #开启log抓取
-#         child = subprocess.Popen('python '+os.path.join(os.getcwd(),'GetLog.py')+' -p '+ fileName,shell=True)
+        # child = subprocess.Popen('python '+os.path.join(os.getcwd(),'GetLog.py')+' -p '+ fileName,shell=True)
         child = subprocess.Popen('python /var/lib/jenkins/workspace/SmokeProject/GetLog.py -p '+ fileName,shell=True)
         print '开启抓log'    
         
