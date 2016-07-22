@@ -114,7 +114,7 @@ def pushVersions():
         subprocess.Popen("taskkill /F /T /PID %i"%child.pid , shell=True)
         print '关闭抓log'    
         
-        #测试结束重启手机
+        #测试结束重启手机.
         time.sleep(2)
         os.system('adb shell reboot')
         
