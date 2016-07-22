@@ -11,7 +11,7 @@ def pushVersions():
     OTA = ftpRun.ota()
     otaVersionsPath = 'ota包下载地址：ftp://FTP_Talpa:talpaftp@10.250.1.88/work/Doc_For_OSTeam/Doc_For_OSTeam/simg2img/out_ota/w3_60_debug/'+OTA
     #判断是否连接上设备
-    run = wait_for_device(30)
+    run = wait_for_device(10)
     if run == 'false':
         print '刷机前手机连接超时，程序终止'
         #发邮件提示tester，未识别到手机，检查测试环境
@@ -114,6 +114,9 @@ def pushVersions():
         subprocess.Popen("taskkill /F /T /PID %i"%child.pid , shell=True)
         print '关闭抓log'    
         
+        #测试结束重启手机
+        time.sleep(2)
+        os.system('adb shell reboot')
         
         #结束后发邮件
         if os.path.exists(os.path.join(os.getcwd(),'ErrorLog',fileName)):
