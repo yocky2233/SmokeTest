@@ -11,7 +11,7 @@ def pushVersions():
     OTA = ftpRun.ota()
     otaVersionsPath = 'ota包下载地址：ftp://FTP_Talpa:talpaftp@10.250.1.88/work/Doc_For_OSTeam/Doc_For_OSTeam/simg2img/out_ota/w3_60_debug/'+OTA
     #判断是否连接上设备
-    run = wait_for_device(10)
+    run = wait_for_device(30)
     if run == 'false':
         print '刷机前手机连接超时，程序终止'
         #发邮件提示tester，未识别到手机，检查测试环境
@@ -49,6 +49,9 @@ def pushVersions():
             #发送邮件通知手机无法进入系统
             sendMail.send(MailRecipients.mailto_list,u"版本刷机报告-刷机失败","hi all:"+"\n"+"    "+"版本"+OTA+"刷机后无法进入系统或无法识别设备！"+"\n"+"    "
                       +otaVersionsPath)
+            os.system('adb reboot')
+            time.sleep(300)
+            os.system('adb shell rm /sdcard/*.zip')
             sys.exit(0) #终止程序
         else:
             print '手机已连接'
@@ -105,18 +108,16 @@ def pushVersions():
         #开启log抓取
         # child = subprocess.Popen('python '+os.path.join(os.getcwd(),'GetLog.py')+' -p '+ fileName,shell=True)
         child = subprocess.Popen('python /var/lib/jenkins/workspace/SmokeProject/GetLog.py -p '+ fileName,shell=True)
-        print '开启抓log'    
-        
+        print '开启抓log'
+
         #运行启动程序
         startApp.test()
-        
+
         #关闭log抓取
         subprocess.Popen("taskkill /F /T /PID %i"%child.pid , shell=True)
-        print '关闭抓log'    
+        print '关闭抓log'
+        os.system('adb reboot')
         
-        #测试结束重启手机.
-        time.sleep(2)
-        os.system('adb shell reboot')
         
         #结束后发邮件
         if os.path.exists(os.path.join(os.getcwd(),'ErrorLog',fileName)):
