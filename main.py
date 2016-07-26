@@ -230,4 +230,5 @@ def wait_for_device(times):
     return run
 
 if __name__ == '__main__':
+    ftpRun.deleteFile('otaLog','test.txt')
     pushVersions()
